@@ -308,42 +308,47 @@ public class MechanicShop{
 		
 	}
 	
-	public static void AddMechanic(MechanicShop esql){//2
-		
-	}
+	public static void AddMechanic(MechanicShop esql){//2 - bri
+		try {
+		System.out.println
+
+		}catch (Exception e){
+			System.err.println (e.getMessage());
+		}
+	}//end AddMechanic 
 	
 	public static void AddCar(MechanicShop esql){//3
 		
 	}
 	
-	public static void InsertServiceRequest(MechanicShop esql){//4
+	public static void InsertServiceRequest(MechanicShop esql){//4 -  bri
 		
-	}
+	}//end InsertServiceRequest
 	
 	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5
 		
 	}
 	
-	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6
+	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6 - bri
 		
-	}
+	}//end ListCustomersWithBill
 	
 	public static void ListCustomersWithMoreThan20Cars(MechanicShop esql){//7
 		
 	}
 	
-	public static void ListCarsBefore1995With50000Milles(MechanicShop esql){//8
+	public static void ListCarsBefore1995With50000Milles(MechanicShop esql){//8 - bri
 		
-	}
+	} //endListCarsBefore1995
 	
 	public static void ListKCarsWithTheMostServices(MechanicShop esql){//9
 		//
 		
 	}
 	
-	public static void ListCustomersInDescendingOrderOfTheirTotalBill(MechanicShop esql){//9
+	public static void ListCustomersInDescendingOrderOfTheirTotalBill(MechanicShop esql){//10 - bri
 		//
 		
-	}
+	}//endListCustomersInDescendingOrder
 	
 }
