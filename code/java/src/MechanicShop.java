@@ -309,12 +309,22 @@ public class MechanicShop{
 	}
 	
 	public static void AddMechanic(MechanicShop esql){//2 - bri
-		String fname, lname, specialty
-		Int exp, id // mechanic ID is primary key
+		String fname, lname;
+		int exp = -1; 
+		int id; // mechanic ID is primary key
 		
+		String query =;
+		list<lists<string>> mechID = esql.executeQueryAndReturnResult(query);
 
+		System.out.print("\tEnter first name: ");
+		fname = in.readLine();
+		System.out.print("\tEnter last name: ");
+                lname = in.readLine();
+		System.out.print("\tEnter years experience: ");
+                exp = in.readLine();
+		
 		try {
-		System.out.println
+		
 
 		}catch (Exception e){
 			System.err.println (e.getMessage());
