@@ -309,6 +309,10 @@ public class MechanicShop{
 	}
 	
 	public static void AddMechanic(MechanicShop esql){//2 - bri
+		String fname, lname, specialty
+		Int exp, id // mechanic ID is primary key
+		
+
 		try {
 		System.out.println
 
