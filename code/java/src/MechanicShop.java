@@ -301,89 +301,147 @@ public class MechanicShop{
 				continue;
 			}//end try
 		}while (true);
+
 		return input;
 	}//end readChoice
 	
-	public static void AddCustomer(MechanicShop esql){//1
-		
+	public static void AddCustomer(MechanicShop esql){//1 - sabrina
+		try{ 
+			
+			System.out.print("\tEnter customer's first name: ");
+			String fname = in.readLine(); // take in fname
+
+			System.out.print("\tEnter customer's last name: ");
+			String lname = in.readLine();
+
+			System.out.print("\tEnter customer's address: ");
+			String address = in.readLine();
+
+			int count = 0;
+			long phone;
+			do{
+				System.out.print("\tEnter customer's phone number: ");
+				phone = Long.parseLong(in.readLine());
+
+				Long number = phone;
+				while(number > 0){
+					number /= 10;
+					++count;
+				}
+			} while (count != 10);
+			// needs digit check
+
+			String query = "INSERT INTO Customer (fname, lname, phone, address) VALUES (" + fname + ", " + lname + ", " + phone + ", " + address + ")";
+			
+			esql.executeUpdate(query);
+			// System.out.println ("total row(s): " + rowCount);
+			System.out.printf("%n");
+
+		} catch(Exception e){
+			System.err.println (e.getMessage());
+		}
 	}
 	
 	public static void AddMechanic(MechanicShop esql){//2 - bri
-		String fname, lname;
-		int exp = -1; 
-		int id; // mechanic ID is primary key
-		
-		String query =;
-		list<lists<string>> mechID = esql.executeQueryAndReturnResult(query);
-
-		System.out.print("\tEnter first name: ");
-		fname = in.readLine();
-		System.out.print("\tEnter last name: ");
-                lname = in.readLine();
-		System.out.print("\tEnter years experience: ");
-                exp = in.readLine();
-		
 		try {
-		
+			String fname, lname;
+			int exp = -1; 
+			int id; // mechanic ID is primary key
+			
+			String query = "";
+			List<List<String>> mechID = esql.executeQueryAndReturnResult(query);
+
+			System.out.print("\tEnter first name: ");
+			fname = in.readLine();
+			
+			System.out.print("\tEnter last name: ");
+	        lname = in.readLine();
+			
+			System.out.print("\tEnter years experience: ");
+	        exp = Integer.parseInt(in.readLine());
 
 		}catch (Exception e){
 			System.err.println (e.getMessage());
 		}
 	}//end AddMechanic 
 	
-	public static void AddCar(MechanicShop esql){//3
-		
+	public static void AddCar(MechanicShop esql){//3 - sabrina
+		try{
+
+			
+		}catch (Exception e){
+			System.err.println (e.getMessage());
+		}		
 	}
 	
 	public static void InsertServiceRequest(MechanicShop esql){//4 -  bri
-		
+		try{
+
+			
+		}catch (Exception e){
+			System.err.println (e.getMessage());
+		}		
 	}//end InsertServiceRequest
 	
-	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5
-		
+	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5 - sabrina
+		try{
+
+			
+		}catch (Exception e){
+			System.err.println (e.getMessage());
+		}		
 	}
 	
 	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6 - bri
-		
+		try{
+
+			
+		}catch (Exception e){
+			System.err.println (e.getMessage());
+		}
 	}//end ListCustomersWithBill
 	
-	public static void ListCustomersWithMoreThan20Cars(MechanicShop esql){//7
-		
+	public static void ListCustomersWithMoreThan20Cars(MechanicShop esql){//7 - sabrina
+		try{
+
+			
+		}catch (Exception e){
+			System.err.println (e.getMessage());
+		}
 	}
 	
 	public static void ListCarsBefore1995With50000Milles(MechanicShop esql){//8 - bri
-		
-		String query = SELECT DISTINCT make, model, year
-			FROM Car AS C, Service_Request AS S
-			WHERE year < 1995 and S.car_vin = C.vin and S.odometer < 50000;
-		list<list<string>> cars = esql.executeQueryAndReturnResult(query)	
-		int result = esql.executeQuery(query);
-		System.out.println(result);
+		try{
+			String query = "SELECT DISTINCT make, model, year FROM Car AS C, Service_Request AS S WHERE year < 1995 and S.car_vin = C.vin and S.odometer < 50000";
+			List<List<String>> cars = esql.executeQueryAndReturnResult(query); 
+			int result = esql.executeQuery(query);
+			System.out.println(result);
 
+		}catch (Exception e){
+			System.err.println (e.getMessage());
+		}
 	} //endListCarsBefore1995
 	
-	public static void ListKCarsWithTheMostServices(MechanicShop esql){//9
+	public static void ListKCarsWithTheMostServices(MechanicShop esql){//9 - sabrina
 		//
-		
+		try{
+
+
+		}catch (Exception e){
+			System.err.println (e.getMessage());
+		}
 	}
 	
 	public static void ListCustomersInDescendingOrderOfTheirTotalBill(MechanicShop esql){//10 - bri
-	try{		
-		String query = SELECT C.fname , C.lname, Total
-			FROM Customer AS C,
-			(SELECT sr.customer_id, SUM(CR.bill) AS Total
-			FROM Closed_Request AS CR, Service_Request AS SR
-			WHERE CR.rid = SR.rid
-			GROUP BY SR.customer_id) AS A
-			WHERE C.id=A.customer_id
-			ORDER BY A.Total DESC;
-		list<list<string> customers = esql.executeQueryAndReturnResult(query);
-		for (int i = 0; i < customers.size(); ++) {
-		System.out.println((i + 1) + ", " + customers.get(i).get(0) + " " + customers.get(i).get(1));
-		}
-	System.out.println();
-	} catch(Exception e) {
-		System.err.println(e.getMessage());
+		try{		
+			String query = "SELECT C.fname , C.lname, Total FROM Customer AS C, (SELECT sr.customer_id, SUM(CR.bill) AS Total FROM Closed_Request AS CR, Service_Request AS SR WHERE CR.rid = SR.rid GROUP BY SR.customer_id) AS A WHERE C.id=A.customer_id ORDER BY A.Total DESC";
+			List<List<String>> customers = esql.executeQueryAndReturnResult(query);
+			for (int i = 0; i < customers.size(); i++) {
+				System.out.println((i + 1) + ", " + customers.get(i).get(0) + " " + customers.get(i).get(1));
+			}
+			System.out.println();
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
 		}
 	}//endListCustomersInDescendingOrder
 	
