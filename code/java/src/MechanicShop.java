@@ -315,21 +315,12 @@ public class MechanicShop{
 			String lname = in.readLine();
 
 			System.out.print("\tEnter customer's address: ");
-			String address = in.readLine();
+			String address = in.readLine(); // need to include spaces
 
-			int count = 0;
-			long phone;
-			do{
-				System.out.print("\tEnter customer's phone number: ");
-				phone = Long.parseLong(in.readLine());
+			System.out.print("\tEnter customer's phone number with the format (xxx)xxx-xxxx: "); 
+			String phone = in.readLine(); // need to include spaces
 
-				Long number = phone;
-				while(number > 0){
-					number /= 10;
-					++count;
-				}
-			} while (count != 10);
-			// needs digit check
+			// needs # of digit check
 
 			String query = "INSERT INTO Customer (fname, lname, phone, address) VALUES (" + fname + ", " + lname + ", " + phone + ", " + address + ")";
 			
@@ -337,8 +328,14 @@ public class MechanicShop{
 			// System.out.println ("total row(s): " + rowCount);
 			System.out.printf("%n");
 
-		} catch(Exception e){
-			System.err.println (e.getMessage());
+		}catch(SQLException se){
+		  //Handle errors for JDBC
+		  se.printStackTrace();
+		}catch(Exception e){
+		  //Handle errors for Class.forName
+		  e.printStackTrace();
+		// } catch(Exception e){
+			// System.err.println ("error: " + e.getMessage());
 		}
 	}
 	
@@ -367,10 +364,33 @@ public class MechanicShop{
 	
 	public static void AddCar(MechanicShop esql){//3 - sabrina
 		try{
+			System.out.print("\tEnter VIN number: ");
+			Long vinNum = Long.parseLong(in.readLine());
 
-			
-		}catch (Exception e){
-			System.err.println (e.getMessage());
+			System.out.print("\tEnter make of car: ");
+			String carMake = in.readLine();
+
+			System.out.print("\tEnter model of car: ");
+			String carModel = in.readLine();
+
+			System.out.print("\tEnter year of car: ");
+			String carYear = in.readLine(); // change to year
+
+			String query = "INSERT INTO Car (vin, make, model, year) VALUES (" + vinNum + ", " + carMake + ", " + carModel + ", " + carYear + ");";
+
+			System.out.print(query);
+
+			esql.executeUpdate(query);
+			System.out.printf("%n");
+
+	   }catch(SQLException se){
+	      //Handle errors for JDBC
+	      se.printStackTrace();
+	   }catch(Exception e){
+	      //Handle errors for Class.forName
+	      e.printStackTrace();			
+		// }catch (Exception e){
+		// 	System.err.println (e.getMessage());
 		}		
 	}
 	
@@ -403,7 +423,11 @@ public class MechanicShop{
 	
 	public static void ListCustomersWithMoreThan20Cars(MechanicShop esql){//7 - sabrina
 		try{
+			String query = "SELECT DISTINCT Customer.fname, Customer.lname FROM Customer WHERE Customer.id IN (SELECT Owns.customer_id FROM Owns GROUP by Owns.customer_id HAVING COUNT(car_vin) > 20);";
 
+	        int rowCount = esql.executeQueryAndPrintResult(query);
+	        System.out.println ("total row(s): " + rowCount);
+	        System.out.printf("%n");
 			
 		}catch (Exception e){
 			System.err.println (e.getMessage());
