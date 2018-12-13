@@ -440,7 +440,7 @@ public class MechanicShop{
 	
 	public static void ListCarsBefore1995With50000Milles(MechanicShop esql){//8 - bri
 		try{
-			String query = "SELECT DISTINCT make, model, year FROM Car AS C, Service_Request AS S WHERE year < 1995 and S.car_vin = C.vin and S.odometer < 50000"; 
+			String query = "SELECT DISTINCT make, model, year, odometer FROM Car AS C, Service_Request AS S WHERE year < 1995 and S.car_vin = C.vin and S.odometer < 50000"; 
 			
 			int rowCount = esql.executeQueryAndPrintResult(query);
 			System.out.println ("total row(s): " + rowCount);
