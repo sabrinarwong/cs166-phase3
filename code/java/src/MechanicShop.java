@@ -414,7 +414,8 @@ public class MechanicShop{
 	
 	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6 - bri
 		try{
-			String query = "SELECT date,comment,bill FROM Closed_Request WHERE bill < 100";		
+			//String query = "SELECT date,comment,bill FROM Closed_Request WHERE bill < 100";		
+			String query = "SELECT customer_id, CR.rid, bill FROM Closed_Request AS CR, Service_Request AS SR WHERE SR.rid = CR.rid and CR.bill < 100";
 
 		int rowCount = esql.executeQueryAndPrintResult(query);
                 System.out.println ("total row(s): " + rowCount);
