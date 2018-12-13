@@ -398,6 +398,7 @@ public class MechanicShop{
 	// still need to check user input
 
 	public static void InsertServiceRequest(MechanicShop esql){//4 -  bri
+		int id;
 		try{
 			System.out.print("\tEnter your last name: ");
 			String userlname = in.readLine();
@@ -412,27 +413,26 @@ public class MechanicShop{
 			if (searchResult.size() == 1) { // one result returned, get ID
 				//String custID  = "SELECT id FROM Customer WHERE Customer.lname = ('" +  userlname + "')";
 				//int cust1ID = esql.executeQueryAndPrintResult(custID);
-				String id = searchResult.get(0).get(0);
+				id = Integer.parseInt(searchResult.get(0).get(0));
 			}
 			else if (searchResult.size() > 1) { // more than one result returned
 				esql.executeQueryAndPrintResult(query);
-				System.out.print("\tWhich one?: ");
+				System.out.print("\tWhich one? (1, 2, 3, etc.): ");
 				int input = Integer.parseInt(in.readLine());
-	
-				System.out.println("input: " + input);
-				System.out.println("id 1: " + searchResult.get(0).get(0));
-				System.out.println("id 2: " + searchResult.get(1).get(0));
-				//for (int i = 0; i < searchResult.size(); i++) {
-				//	if (input == searchResult.get(i).get(0)) {
-				//		System.out.print("\tgot em");
-				//	}
-				//	else {
-						
-				//	}
-				//}
-				if (input == Integer.parseInt(searchResult.get(0).get(0))) {
-				System.out.print("\tPerson 1 correct ");
+				id = Integer.parseInt(searchResult.get(input - 1).get(0));
+				System.out.println("You chose customer #" + input);
+				System.out.println("Customer id is: " + id);
+			}
+			else { // no customer found, ask user to add customer
+				System.out.println("We couldn't find your customer, would you like  to add one?: ");
+				System.out.println("1. Yes\n2. No");
+				int response = Integer.parseInt(in.readLine());
+				if  (response == 1) {
+					AddCustomer(esql);
 				}
+				else if (response == 2) {
+					return;
+				}	
 			}			
 		}catch (Exception e){
 			System.err.println (e.getMessage());
