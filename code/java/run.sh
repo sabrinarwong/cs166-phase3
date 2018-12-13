@@ -7,4 +7,4 @@ USER=$3
 java -cp lib/*:bin/ MechanicShop $DBNAME $PORT $USER
 
 
-# ./run.sh swong040_DB 9999 swong040
+# source ./run.sh swong040_DB 9997 swong040
