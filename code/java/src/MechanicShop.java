@@ -316,7 +316,7 @@ public class MechanicShop{
 			String lname = in.readLine();
 
 			System.out.print("\tEnter customer's address: ");
-			String address = in.readLine(); // need to include spaces
+			String address = in.readLine();
 
 			System.out.print("\tEnter customer's phone number with the format (xxx)xxx-xxxx: "); 
 			String phone = in.readLine();
@@ -327,14 +327,15 @@ public class MechanicShop{
 			String insertCustomer = "INSERT INTO Customer (id, fname, lname, phone, address) VALUES ( \'" + id + "\', \'" + fname + "\', \'" + lname + "\', \'" + phone + "\', \'" + address + "\')";
 
 			esql.executeUpdate(insertCustomer);
-			System.out.println ("Customer " + id + " has been added.\n");
+			System.out.println ("     Customer " + id + " has been added.\n");
 
 		} catch(Exception e){
 			System.err.println ("error: " + e.getMessage());
 		}
 	}
+	// still need to check user input
 	
-	public static void AddMechanic(MechanicShop esql){//2 - Sabrina
+	public static void AddMechanic(MechanicShop esql){//2 - bri 
 		try {
 			
 			System.out.print("\tEnter first name: ");
@@ -352,12 +353,13 @@ public class MechanicShop{
 			String insertMechanic = "INSERT INTO Mechanic (id, fname, lname, experience) VALUES (\'" + mech_id + "\', \'" + fname + "\', \'" + lname + "\', \'" + exp + "\');";
 
 			esql.executeUpdate(insertMechanic);
-			System.out.println ("Mechanic " + mech_id + " has been added.\n");
+			System.out.println ("     Mechanic " + mech_id + " has been added.\n");
 
 		}catch (Exception e){
 			System.err.println (e.getMessage());
 		}
 	}//end AddMechanic 
+	// still need to check user input
 	
 	public static void AddCar(MechanicShop esql){//3 - sabrina
 		try{
@@ -387,13 +389,14 @@ public class MechanicShop{
 
 			esql.executeUpdate(insertCar);
 			esql.executeUpdate(addToOwns);
-			System.out.println (cust_id + "\'s car has been added.\n");
+			System.out.println ("     Customer " + cust_id + "\'s car has been added.\n");
 			
 		}catch (Exception e){
 			System.err.println (e.getMessage());
 		}		
 	}
-	
+	// still need to check user input
+
 	public static void InsertServiceRequest(MechanicShop esql){//4 -  bri
 		try{
 			System.out.print("\tEnter your last name: ");
@@ -488,7 +491,8 @@ public class MechanicShop{
 	public static void ListKCarsWithTheMostServices(MechanicShop esql){//9 - sabrina
 		//
 		try{
-
+			String query = "SELECT * FROM ( SELECT DISTINCT c.make, c.model, COUNT(s.car_vin) AS count_vin FROM service_request s JOIN car c on s.car_vin = c.vin GROUP BY c.make, c.model) AS count_sr_vin ORDER BY count_vin desc;"; // needs user input to select
+			// need to get selection (list list?)
 
 		}catch (Exception e){
 			System.err.println (e.getMessage());
