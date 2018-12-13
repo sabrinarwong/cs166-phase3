@@ -319,17 +319,14 @@ public class MechanicShop{
 			String address = in.readLine(); // need to include spaces
 
 			System.out.print("\tEnter customer's phone number with the format (xxx)xxx-xxxx: "); 
-			String phone = in.readLine(); // need to include spaces
+			String phone = in.readLine();
 
-			String squence = "CREATE SEQUENCE cust_id_seq START WITH" 
-			int id = esql.getCurrSeqVal()
-			// needs # of digit check
+			int dummyVar = esql.executeQuery("SELECT setval(\'customer_id_seq\', (SELECT MAX(id) FROM Customer));");
+			int id = esql.getCurrSeqVal("customer_id_seq") + 1;
 
-			String query = "INSERT INTO Customer (\"id\", \"fname\", \"lname\", \"phone\", \"address\") VALUES ( \'" + id + "\', \'" + fname + "\', \'" + lname + "\', \'" + phone + "\', \'" + address + "\')";
+			String insertCustomer = "INSERT INTO Customer (id, fname, lname, phone, address) VALUES ( \'" + id + "\', \'" + fname + "\', \'" + lname + "\', \'" + phone + "\', \'" + address + "\')";
 
-			System.out.print(query);
-			
-			esql.executeUpdate(query);
+			esql.executeUpdate(insertCustomer);
 			// System.out.println ("total row(s): " + rowCount);
 			System.out.printf("%n");
 
@@ -362,6 +359,10 @@ public class MechanicShop{
 			System.out.print("\tEnter years experience: ");
 	        exp = Integer.parseInt(in.readLine());
 
+        	int dummyVar = esql.executeQuery("SELECT setval(\'mechanic_id_seq\', (SELECT MAX(id) FROM Mechanic));");
+			id = esql.getCurrSeqVal("mechanic_id_seq") + 1;
+
+
 		}catch (Exception e){
 			System.err.println (e.getMessage());
 		}
@@ -369,6 +370,9 @@ public class MechanicShop{
 	
 	public static void AddCar(MechanicShop esql){//3 - sabrina
 		try{
+			System.out.print("\tEnter Customer ID: ");
+			int cust_id = Integer.parseInt(in.readLine());
+
 			System.out.print("\tEnter VIN number: ");
 			Long vinNum = Long.parseLong(in.readLine());
 
@@ -381,11 +385,17 @@ public class MechanicShop{
 			System.out.print("\tEnter year of car: ");
 			String carYear = in.readLine(); // change to year
 
-			String query = "INSERT INTO Car (vin, make, model, year) VALUES (" + vinNum + ", " + carMake + ", " + carModel + ", " + carYear + ");";
+			String insertCar = "INSERT INTO Car (vin, make, model, year) VALUES (" + vinNum + ", " + carMake + ", " + carModel + ", " + carYear + ");";
 
-			System.out.print(query);
+			// update ownership of car
+			int dummyVar = esql.executeQuery("SELECT setval(\'owns_id_seq\', (SELECT MAX(id) FROM Owns));");
 
-			esql.executeUpdate(query);
+			int own_id = esql.getCurrSeqVal("owns_id_seq") + 1;
+
+			String addToOwns = "INSERT INTO Owns (ownership_id, customer_id, car_vin) VALUES (\'" + own_id + "\', \'" + cust_id + "\', \'" + vinNum + "\');";
+
+			esql.executeUpdate(insertCar);
+			esql.executeUpdate(addToOwns);
 			System.out.printf("%n");
 
 	   }catch(SQLException se){
