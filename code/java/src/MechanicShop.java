@@ -541,11 +541,25 @@ public class MechanicShop{
 		}
 	} //endListCarsBefore1995
 	
+	
 	public static void ListKCarsWithTheMostServices(MechanicShop esql){//9 - sabrina
 		//
 		try{
 			String query = "SELECT * FROM ( SELECT DISTINCT c.make, c.model, COUNT(s.car_vin) AS count_vin FROM service_request s JOIN car c on s.car_vin = c.vin GROUP BY c.make, c.model) AS count_sr_vin ORDER BY count_vin desc;"; // needs user input to select
 			// need to get selection (list list?)
+
+			System.out.print("\tHow many cars do you want to see with the highest amount of service requests? ");
+			int k = Integer.parseInt(in.readLine());
+
+			List<List<String>> orderedResult = esql.executeQueryAndReturnResult(query);
+
+
+			for(int i = 0; i < k; i++){
+				int n = 1 + i ;
+				System.out.println( n + ". Make and model: " + orderedResult.get(i).get(0) + " " + orderedResult.get(i).get(1)); // make(0), model(1)
+				System.out.println("   Amount of requests: " + orderedResult.get(i).get(2)); // count
+				System.out.println("");
+			}
 
 		}catch (Exception e){
 			System.err.println (e.getMessage());
