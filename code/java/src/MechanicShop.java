@@ -465,11 +465,12 @@ public class MechanicShop{
 	public static void ListCustomersInDescendingOrderOfTheirTotalBill(MechanicShop esql){//10 - bri
 		try{		
 			String query = "SELECT C.fname , C.lname, Total FROM Customer AS C, (SELECT sr.customer_id, SUM(CR.bill) AS Total FROM Closed_Request AS CR, Service_Request AS SR WHERE CR.rid = SR.rid GROUP BY SR.customer_id) AS A WHERE C.id=A.customer_id ORDER BY A.Total DESC";
-			List<List<String>> customers = esql.executeQueryAndReturnResult(query);
-			for (int i = 0; i < customers.size(); i++) {
-				System.out.println((i + 1) + ", " + customers.get(i).get(0) + " " + customers.get(i).get(1));
-			}
-			System.out.println();
+			//List<List<String>> customers = esql.executeQueryAndReturnResult(query);
+			//for (int i = 0; i < customers.size(); i++) {
+				//System.out.println((i + 1) + ", " + customers.get(i).get(0
+			int rowCount = esql.executeQueryAndPrintResult(query);			
+			System.out.println("total row(s): " + rowCount);
+			System.out.printf("%n");
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
