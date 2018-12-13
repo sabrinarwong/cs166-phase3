@@ -77,8 +77,8 @@ CREATE TABLE Service_Request
 CREATE TABLE Closed_Request
 (
 	wid INTEGER NOT NULL,
-	rid INTEGER NOT NULL,
-	mid INTEGER NOT NULL,
+	rid INTEGER NOT NULL, -- service request id
+	mid INTEGER NOT NULL, -- mechanic id
 	date DATE NOT NULL,
 	comment TEXT,
 	bill _PINTEGER NOT NULL,

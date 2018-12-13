@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
 
+import java.util.Random; // to create random numbers for id (?)
 /**
  * This class defines a simple embedded SQL utility class that is designed to
  * work with PostgreSQL JDBC drivers.
@@ -320,9 +321,13 @@ public class MechanicShop{
 			System.out.print("\tEnter customer's phone number with the format (xxx)xxx-xxxx: "); 
 			String phone = in.readLine(); // need to include spaces
 
+			String squence = "CREATE SEQUENCE cust_id_seq START WITH" 
+			int id = esql.getCurrSeqVal()
 			// needs # of digit check
 
-			String query = "INSERT INTO Customer (fname, lname, phone, address) VALUES (" + fname + ", " + lname + ", " + phone + ", " + address + ")";
+			String query = "INSERT INTO Customer (\"id\", \"fname\", \"lname\", \"phone\", \"address\") VALUES ( \'" + id + "\', \'" + fname + "\', \'" + lname + "\', \'" + phone + "\', \'" + address + "\')";
+
+			System.out.print(query);
 			
 			esql.executeUpdate(query);
 			// System.out.println ("total row(s): " + rowCount);

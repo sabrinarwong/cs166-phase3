@@ -13,3 +13,5 @@ psql -h localhost -p $PGPORT $USER"_DB" < ../sql/create.sql
 
 # to run multiple .sql files
 # cat file1.sql file2.sql | psql -h localhost -p $PGPORT $USER"_DB" -1 -f -
+
+#cat ../sql/create.sql ../sql/triggers.sql ../sql/create_index.sql | psql -h localhost -p $PGPORT $USER"_DB"

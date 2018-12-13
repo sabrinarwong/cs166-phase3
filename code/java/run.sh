@@ -5,6 +5,3 @@ USER=$3
 
 # Example: source ./run.sh flightDB 5432 user
 java -cp lib/*:bin/ MechanicShop $DBNAME $PORT $USER
-
-
-# ./run.sh swong040_DB 9999 swong040
