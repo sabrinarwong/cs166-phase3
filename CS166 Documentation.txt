@@ -4,16 +4,31 @@ Brianna Nguyen
 CS166 Phase 3 Documentation
 
 Assumptions and its details:
-  •	
+  •  With the requirement that "a car has exactly one owner", ownership of the car is inserted in table Owns when a car is added.
+  •  
+  •  
+  •  
+  •  
 
 
 Contributions:
    Sabrina:
-  •	
+  •  AddCustomer(esql);
+  •  AddMechanic(esql);
+  •  AddCar(esql);
+  •  ListCustomersWithMoreThan20Cars(esql);
+     •  Created index make_model in create_index.sqlfor option 9;
+  •  ListKCarsWithTheMostServices(esql);
 
-
+  •  Created sequences in triggers.sql for incrementing ID's.
 
 
    Brianna: 
-  •	
-
+  •  InsertServiceRequest(esql);
+  •  CloseServiceRequest(esql);
+  •  ListCustomersWithBillLessThan100(esql);
+  •  ListCarsBefore1995With50000Milles(esql);
+  •  ListCustomersInDescendingOrderOfTheirTotalBill(esql);
+  •  
+  •  
+  •  
