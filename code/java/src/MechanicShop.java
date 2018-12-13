@@ -327,41 +327,32 @@ public class MechanicShop{
 			String insertCustomer = "INSERT INTO Customer (id, fname, lname, phone, address) VALUES ( \'" + id + "\', \'" + fname + "\', \'" + lname + "\', \'" + phone + "\', \'" + address + "\')";
 
 			esql.executeUpdate(insertCustomer);
-			// System.out.println ("total row(s): " + rowCount);
-			System.out.printf("%n");
+			System.out.println ("Customer " + id + " has been added.\n");
 
-		}catch(SQLException se){
-		  //Handle errors for JDBC
-		  se.printStackTrace();
-		}catch(Exception e){
-		  //Handle errors for Class.forName
-		  e.printStackTrace();
-		// } catch(Exception e){
-			// System.err.println ("error: " + e.getMessage());
+		} catch(Exception e){
+			System.err.println ("error: " + e.getMessage());
 		}
 	}
 	
-	public static void AddMechanic(MechanicShop esql){//2 - bri
+	public static void AddMechanic(MechanicShop esql){//2 - Sabrina
 		try {
-			String fname, lname;
-			int exp = -1; 
-			int id; // mechanic ID is primary key
 			
-			String query = "";
-			List<List<String>> mechID = esql.executeQueryAndReturnResult(query);
-
 			System.out.print("\tEnter first name: ");
-			fname = in.readLine();
+			String fname = in.readLine();
 			
 			System.out.print("\tEnter last name: ");
-	        lname = in.readLine();
+	        String lname = in.readLine();
 			
 			System.out.print("\tEnter years experience: ");
-	        exp = Integer.parseInt(in.readLine());
+	        int exp = Integer.parseInt(in.readLine());
 
         	int dummyVar = esql.executeQuery("SELECT setval(\'mechanic_id_seq\', (SELECT MAX(id) FROM Mechanic));");
-			id = esql.getCurrSeqVal("mechanic_id_seq") + 1;
+			int mech_id = esql.getCurrSeqVal("mechanic_id_seq") + 1;
 
+			String insertMechanic = "INSERT INTO Mechanic (id, fname, lname, experience) VALUES (\'" + mech_id + "\', \'" + fname + "\', \'" + lname + "\', \'" + exp + "\');";
+
+			esql.executeUpdate(insertMechanic);
+			System.out.println ("Mechanic " + mech_id + " has been added.\n");
 
 		}catch (Exception e){
 			System.err.println (e.getMessage());
@@ -396,16 +387,10 @@ public class MechanicShop{
 
 			esql.executeUpdate(insertCar);
 			esql.executeUpdate(addToOwns);
-			System.out.printf("%n");
-
-	   }catch(SQLException se){
-	      //Handle errors for JDBC
-	      se.printStackTrace();
-	   }catch(Exception e){
-	      //Handle errors for Class.forName
-	      e.printStackTrace();			
-		// }catch (Exception e){
-		// 	System.err.println (e.getMessage());
+			System.out.println (cust_id + "\'s car has been added.\n");
+			
+		}catch (Exception e){
+			System.err.println (e.getMessage());
 		}		
 	}
 	
