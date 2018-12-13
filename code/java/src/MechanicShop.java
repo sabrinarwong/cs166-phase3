@@ -401,8 +401,41 @@ public class MechanicShop{
 	
 	public static void InsertServiceRequest(MechanicShop esql){//4 -  bri
 		try{
-
+			System.out.print("\tEnter your last name: ");
+			String userlname = in.readLine();
+		
+			// searches Customer for matching entry	
+			String query = "SELECT id, fname, lname, phone, address FROM Customer WHERE Customer.lname = ('" + userlname  + "')";
 			
+			// assigns possible customers into searchResult
+			List<List<String>> searchResult = esql.executeQueryAndReturnResult(query);
+                	
+			// check how many customers were returned
+			if (searchResult.size() == 1) { // one result returned, get ID
+				//String custID  = "SELECT id FROM Customer WHERE Customer.lname = ('" +  userlname + "')";
+				//int cust1ID = esql.executeQueryAndPrintResult(custID);
+				String id = searchResult.get(0).get(0);
+			}
+			else if (searchResult.size() > 1) { // more than one result returned
+				esql.executeQueryAndPrintResult(query);
+				System.out.print("\tWhich one?: ");
+				int input = Integer.parseInt(in.readLine());
+	
+				System.out.println("input: " + input);
+				System.out.println("id 1: " + searchResult.get(0).get(0));
+				System.out.println("id 2: " + searchResult.get(1).get(0));
+				//for (int i = 0; i < searchResult.size(); i++) {
+				//	if (input == searchResult.get(i).get(0)) {
+				//		System.out.print("\tgot em");
+				//	}
+				//	else {
+						
+				//	}
+				//}
+				if (input == Integer.parseInt(searchResult.get(0).get(0))) {
+				System.out.print("\tPerson 1 correct ");
+				}
+			}			
 		}catch (Exception e){
 			System.err.println (e.getMessage());
 		}		
