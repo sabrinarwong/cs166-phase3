@@ -404,6 +404,9 @@ public class MechanicShop{
 		int id = -1;
 		int input = -1;
 		String vin = "";
+		String comments = "";
+		int rid = -1;
+		int odometer_reading = -1;
 
 		try{
 			System.out.print("\tEnter your last name: ");
@@ -457,6 +460,10 @@ public class MechanicShop{
 				AddCar(esql);
 			}
 			
+			// get new request id
+			int dummyVar = esql.executeQuery("SELECT setval(\'rid_seq\', (SELECT MAX(rid) FROM Service_Request));");
+			rid = esql.getCurrSeqVal("rid_seq") + 1;
+	
 			// get today's date
 			String date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
 		
@@ -467,10 +474,19 @@ public class MechanicShop{
 				System.out.println("Enter a number greater than 0. ");
 			}
 			else {
-				int odometer_reading = input;
+				odometer_reading = input;
 				System.out.println("You entered the mileage: " + odometer_reading);
 			}
+			
+			// get complaint from customer
+			System.out.println("What is the problem with your car today? ");
+			comments = in.readLine();
+			System.out.printf("%n");
 
+			// execute updates
+			String addRequest = "INSERT INTO Service_Request(rid, customer_id, car_vin, date, odometer, complain) VALUES (\'" + rid + "\', \'" + id + "\', \'" + vin + "\', \'" + date + "\', \'" + odometer_reading + "\', \'" + comments + "\');";
+			esql.executeUpdate(addRequest);
+			System.out.println ("Service request #" + rid + " has been added.\n");
 		}catch (Exception e){
 			System.err.println (e.getMessage());
 		}		
