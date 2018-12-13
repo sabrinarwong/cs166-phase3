@@ -385,10 +385,10 @@ public class MechanicShop{
 			System.out.print("\tEnter year of car: ");
 			String carYear = in.readLine(); // change to year
 
-			String insertCar = "INSERT INTO Car (vin, make, model, year) VALUES (" + vinNum + ", " + carMake + ", " + carModel + ", " + carYear + ");";
+			String insertCar = "INSERT INTO Car (vin, make, model, year) VALUES (\'" + vinNum + "\', \'" + carMake + "\', \'" + carModel + "\', \'" + carYear + "\');";
 
 			// update ownership of car
-			int dummyVar = esql.executeQuery("SELECT setval(\'owns_id_seq\', (SELECT MAX(id) FROM Owns));");
+			int dummyVar = esql.executeQuery("SELECT setval(\'owns_id_seq\', (SELECT MAX(ownership_id) FROM Owns));");
 
 			int own_id = esql.getCurrSeqVal("owns_id_seq") + 1;
 
