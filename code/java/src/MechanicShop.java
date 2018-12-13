@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 import java.util.Random; // to create random numbers for id (?)
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 /**
  * This class defines a simple embedded SQL utility class that is designed to
  * work with PostgreSQL JDBC drivers.
@@ -398,7 +401,10 @@ public class MechanicShop{
 	// still need to check user input
 
 	public static void InsertServiceRequest(MechanicShop esql){//4 -  bri
-		int id;
+		int id = -1;
+		int input = -1;
+		String vin = "";
+
 		try{
 			System.out.print("\tEnter your last name: ");
 			String userlname = in.readLine();
@@ -418,7 +424,7 @@ public class MechanicShop{
 			else if (searchResult.size() > 1) { // more than one result returned
 				esql.executeQueryAndPrintResult(query);
 				System.out.print("\tWhich one? (1, 2, 3, etc.): ");
-				int input = Integer.parseInt(in.readLine());
+				input = Integer.parseInt(in.readLine());
 				id = Integer.parseInt(searchResult.get(input - 1).get(0));
 				System.out.println("You chose customer #" + input);
 				System.out.println("Customer id is: " + id);
@@ -433,7 +439,38 @@ public class MechanicShop{
 				else if (response == 2) {
 					return;
 				}	
-			}			
+			}
+
+			// display cars that need to be serviced
+			
+			query = "SELECT vin, make, model, year FROM Car C, Owns O WHERE O.car_vin = C.vin and O.customer_id = '";
+			query += id + "'";
+			List<List<String>> customer_vins = esql.executeQueryAndReturnResult(query);
+			if (customer_vins.size() > 0) { 
+				System.out.println("Which car is yours? (1, 2, 3, etc.)");
+				int cars = esql.executeQueryAndPrintResult(query);
+				input = Integer.parseInt(in.readLine()); // customer chooses car for service request
+				System.out.println("You chose the car: " + customer_vins.get(input - 1).get(1) + " " + customer_vins.get(input - 1).get(2));
+				vin = customer_vins.get(input - 1).get(0);
+			}
+			else { // add car
+				AddCar(esql);
+			}
+			
+			// get today's date
+			String date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
+		
+			// get odometer reading
+			System.out.println("How many miles are on the odometer? ");
+			input = Integer.parseInt(in.readLine());
+			if (input <= 0) {
+				System.out.println("Enter a number greater than 0. ");
+			}
+			else {
+				int odometer_reading = input;
+				System.out.println("You entered the mileage: " + odometer_reading);
+			}
+
 		}catch (Exception e){
 			System.err.println (e.getMessage());
 		}		
