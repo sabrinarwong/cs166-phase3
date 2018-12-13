@@ -414,8 +414,12 @@ public class MechanicShop{
 	
 	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6 - bri
 		try{
+			String query = "SELECT date,comment,bill FROM Closed_Request WHERE bill < 100";		
 
-			
+		int rowCount = esql.executeQueryAndPrintResult(query);
+                System.out.println ("total row(s): " + rowCount);
+                System.out.printf("%n");
+				
 		}catch (Exception e){
 			System.err.println (e.getMessage());
 		}
@@ -436,10 +440,11 @@ public class MechanicShop{
 	
 	public static void ListCarsBefore1995With50000Milles(MechanicShop esql){//8 - bri
 		try{
-			String query = "SELECT DISTINCT make, model, year FROM Car AS C, Service_Request AS S WHERE year < 1995 and S.car_vin = C.vin and S.odometer < 50000";
-			List<List<String>> cars = esql.executeQueryAndReturnResult(query); 
-			int result = esql.executeQuery(query);
-			System.out.println(result);
+			String query = "SELECT DISTINCT make, model, year FROM Car AS C, Service_Request AS S WHERE year < 1995 and S.car_vin = C.vin and S.odometer < 50000"; 
+			
+			int rowCount = esql.executeQueryAndPrintResult(query);
+			System.out.println ("total row(s): " + rowCount);
+			System.out.printf("%n");
 
 		}catch (Exception e){
 			System.err.println (e.getMessage());
