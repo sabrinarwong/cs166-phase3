@@ -309,7 +309,7 @@ public class MechanicShop{
 		return input;
 	}//end readChoice
 	
-	public static void AddCustomer(MechanicShop esql){//1 - sabrina
+	public static void AddCustomer(MechanicShop esql){//1 - sabrina=
 		try{ 
 			
 			System.out.print("\tEnter customer's first name: ");
@@ -369,8 +369,24 @@ public class MechanicShop{
 			System.out.print("\tEnter Customer ID: ");
 			int cust_id = Integer.parseInt(in.readLine());
 
+			// if customer_id exists
+			int validId = esql.executeQuery("SELECT * FROM Customer WHERE id = " + cust_id);
+			while(validId < 1){
+				System.out.print("Customer ID does not exists. Enter valid customer ID: ");
+				cust_id = Integer.parseInt(in.readLine());
+				validId = esql.executeQuery("SELECT * FROM Customer WHERE id = " + cust_id);
+			}
+
 			System.out.print("\tEnter VIN number: ");
-			Long vinNum = Long.parseLong(in.readLine());
+			String vinNum = in.readLine();
+
+			// if VIN exists
+			int validVin = esql.executeQuery("SELECT * FROM Car WHERE vin = \'" + vinNum + "\'");
+			while(validVin > 0){
+				System.out.print("Vin already exists. Enter new VIN: ");
+				vinNum = in.readLine();
+				validVin = esql.executeQuery("SELECT * FROM Car WHERE vin = \'" + vinNum + "\'");
+			}			
 
 			System.out.print("\tEnter make of car: ");
 			String carMake = in.readLine();
@@ -551,8 +567,12 @@ public class MechanicShop{
 			System.out.print("\tHow many cars do you want to see with the highest amount of service requests? ");
 			int k = Integer.parseInt(in.readLine());
 
-			List<List<String>> orderedResult = esql.executeQueryAndReturnResult(query);
+			while(k <= 0){
+				System.out.print("Enter a NON-ZERO POSITIVE number: ");
+				k = Integer.parseInt(in.readLine());
+			}
 
+			List<List<String>> orderedResult = esql.executeQueryAndReturnResult(query);
 
 			for(int i = 0; i < k; i++){
 				int n = 1 + i ;
