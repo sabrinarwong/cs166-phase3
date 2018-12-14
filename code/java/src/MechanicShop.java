@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Random; // to create random numbers for id (?)
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * This class defines a simple embedded SQL utility class that is designed to
@@ -509,9 +510,51 @@ public class MechanicShop{
 	}//end InsertServiceRequest
 	
 	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5 - sabrina
-		try{
+		int request_id = -1;
+		int mechanic_id = -1;
 
+		try{
+			System.out.println("Enter the service request number (between 1 and 30,000): ");
+			request_id = Integer.parseInt(in.readLine());
+			if (request_id > 30000 || request_id < 1) {
+			System.out.println("Number not valid, try again!");
+			return;
+			}
+			else {
+			}
+			// check if service request exists
+			String query = "SELECT rid, customer_id, car_vin, date, odometer, complain FROM Service_Request SR WHERE SR.rid = '";
+			query += request_id + "'";
+			List<List<String>> openRequest = esql.executeQueryAndReturnResult(query);
+			System.out.println("customer info for service request #" + request_id);
+			esql.executeQueryAndPrintResult(query);
+						
+		
+			System.out.println("Enter your mechanic id (between 1 and 250): ");
+                        mechanic_id = Integer.parseInt(in.readLine());
+                        if (mechanic_id > 30000 || mechanic_id < 1) {
+                        	System.out.println("Number not valid, try again!");
+                        return;
+                        }
+                        else {
+                        	
+			}
+	
+			// check if mechanic exists
+			query = "SELECT id, fname, lname FROM Mechanic M WHERE M.id = '";
+			query += mechanic_id + "'";
+			List<List<String>> mechInfo = esql.executeQueryAndReturnResult(query);
 			
+			System.out.println("Mechanic info for mechanic #" + mechInfo.get(0).get(0));
+			esql.executeQueryAndPrintResult(query);
+						
+			// check if proper date - FIX LATER
+			//String date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
+			//if ((openRequest.get(0).get(3)).before(date)) {
+			//System.out.println("date before today");
+			//}
+			//else {
+			//} 
 		}catch (Exception e){
 			System.err.println (e.getMessage());
 		}		
