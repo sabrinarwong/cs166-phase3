@@ -512,6 +512,9 @@ public class MechanicShop{
 	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5 - sabrina
 		int request_id = -1;
 		int mechanic_id = -1;
+		int bill = -1;	
+		String mech_comments = "";
+		int wid = -1; // primary key of closed requests
 
 		try{
 			System.out.println("Enter the service request number (between 1 and 30,000): ");
@@ -549,12 +552,31 @@ public class MechanicShop{
 			esql.executeQueryAndPrintResult(query);
 						
 			// check if proper date - FIX LATER
-			//String date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
+			String date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
 			//if ((openRequest.get(0).get(3)).before(date)) {
 			//System.out.println("date before today");
 			//}
 			//else {
 			//} 
+			
+			// generate incremnted closed request id NOT service request id
+			int dummyVar = esql.executeQuery("SELECT setval(\'wid_seq\', (SELECT MAX(wid) FROM Closed_Request));");
+			wid = esql.getCurrSeqVal("wid_seq") + 1;
+			
+			//Mechanic enters comments
+			System.out.println("Enter your comments on the service request.\n");
+			mech_comments = in.readLine();
+
+			//Mechanic enters bill
+			System.out.println("Enter the billing amount.\n");
+			bill = Integer.parseInt(in.readLine());
+			System.out.println("The customer will be charged $" + bill + ".");		
+
+			// add info to Closed_Requests
+			String addRequest = "INSERT INTO Closed_Request(wid, rid, mid, date, comment, bill) VALUES (\'" + wid + "\', \'" + request_id + "\', \'" + mechanic_id + "\', \'" + date + "\', \'" + mech_comments + "\', \'" + bill + "\');";
+			esql.executeUpdate(addRequest);
+			System.out.println ("Service request #" + wid + " has been added.\n");
+
 		}catch (Exception e){
 			System.err.println (e.getMessage());
 		}		
