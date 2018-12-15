@@ -312,11 +312,10 @@ public class MechanicShop{
 	
 	public static void AddCustomer(MechanicShop esql){//1
 		String fname, lname, address, phone;
-		int custExists = 0;
+		int custExists = -1, custPhone = -1;
 
 		try{ 
-			do {
-				if(custExists > 0 ){ System.out.println("Customer already exists. Enter new customer information: ");}
+			while(true){
 
 				System.out.print("\tEnter customer's first name: ");
 				fname = in.readLine(); // take in fname
@@ -330,9 +329,24 @@ public class MechanicShop{
 				System.out.print("\tEnter customer's phone number with the format (xxx)xxx-xxxx: "); 
 				phone = in.readLine();
 
-				custExists = esql.executeQuery("SELECT * FROM Customer WHERE fname = \'" + fname + "\', lname = \'" + lname + "\', address = \'" + address + "\', phone = \'" + phone + "\'");
+				System.out.println();
 
-			} while (custExists > 0);
+				String checkPhone = "SELECT phone FROM Customer WHERE phone = '" + phone + "'";
+				custExists = esql.executeQuery(checkPhone);
+
+				String checkInfo = "SELECT * FROM Customer WHERE fname = '" + fname + "' AND lname = '" + lname + "' AND address = '" + address + "' AND phone = '" + phone + "'";
+				custExists = esql.executeQuery(checkInfo);
+
+
+				if((custPhone == 0) && (custExists == 0)) { break; }
+
+				if(custPhone > 0 ){ 
+					System.out.print("Customer already exists from phone number. Enter new customer information: \n"); 
+				} else if(custExists > 0 ){ 
+					System.out.println("Customer already exists. Enter new customer information: "); 
+				}
+
+			}
 
 
 			int dummyVar = esql.executeQuery("SELECT setval(\'customer_id_seq\', (SELECT MAX(id) FROM Customer));");
@@ -351,12 +365,11 @@ public class MechanicShop{
 	
 	public static void AddMechanic(MechanicShop esql){//2 
 		String fname, lname;
-		int exp = -1, mechExists = 0;
+		int exp = -1, mechExists = -1;
 
 		try {
 			
-			do {
-				if(mechExists > 0 ){ System.out.println("Mechanic already exists. Enter new mechanic information: ");}
+			while(true) {
 
 				System.out.print("\tEnter first name: ");
 				fname = in.readLine();
@@ -373,9 +386,17 @@ public class MechanicShop{
 					exp = Integer.parseInt(in.readLine());
 				}
 
-				mechExists = esql.executeQuery("SELECT * FROM Mechanic WHERE fname = \'" + fname + "\', lname = \'" + lname + "\', experience = \'" + exp + "\'");
+				System.out.println();
 
-			} while (mechExists > 0);
+				String checkInfo = "SELECT * FROM Mechanic WHERE fname = '" + fname + "' AND lname = '" + lname + "' AND experience = '" + exp + "'";
+				mechExists = esql.executeQuery(checkInfo);
+
+				if(mechExists > 0 ){ 
+					System.out.println("Mechanic already exists. Enter new mechanic information: ");
+				} else{ break; }
+
+
+			}
 
         	int dummyVar = esql.executeQuery("SELECT setval(\'mechanic_id_seq\', (SELECT MAX(id) FROM Mechanic));");
 			int mech_id = esql.getCurrSeqVal("mechanic_id_seq") + 1;
@@ -544,18 +565,17 @@ public class MechanicShop{
 
 		int dummyVar1 = esql.executeQuery("SELECT setval(\'rid_seq\', (SELECT MAX(rid) FROM Service_Request));");
 		int lastSRid = esql.getCurrSeqVal("rid_seq");
-		int dummyVar2 = esql.executeQuery("SELECT setval(\'rid_seq\', (SELECT MAX(id) FROM Mechanic));");
+		int dummyVar2 = esql.executeQuery("SELECT setval(\'mechanic_id_seq\', (SELECT MAX(id) FROM Mechanic));");
 		int lastMechId = esql.getCurrSeqVal("mechanic_id_seq");
 
 		try{
 			System.out.println("Enter the service request number (between 1 and "+ lastSRid + "): ");
 			request_id = Integer.parseInt(in.readLine());
-			if (request_id > lastSRid || request_id < 1) {
+			while(request_id > lastSRid || request_id < 1) {
 				System.out.println("Number not valid, try again!");
-				return;
+				request_id = Integer.parseInt(in.readLine());
 			}
-			else {
-			}
+
 			// check if service request exists
 			String query = "SELECT rid, customer_id, car_vin, date, odometer, complain FROM Service_Request SR WHERE SR.rid = '";
 			query += request_id + "'";
@@ -567,13 +587,11 @@ public class MechanicShop{
 			System.out.println("Enter your mechanic id (between 1 and " + lastMechId + "): ");
             mechanic_id = Integer.parseInt(in.readLine());
 
-            if (mechanic_id > lastMechId || mechanic_id < 1) {
+            while (mechanic_id > lastMechId || mechanic_id < 1) {
        		 	System.out.println("Number not valid, try again!");
-      		  	return;
+				request_id = Integer.parseInt(in.readLine());
             }
-            else {
-                        	
-			}
+
 	
 			// check if mechanic exists
 			query = "SELECT id, fname, lname FROM Mechanic M WHERE M.id = '";
