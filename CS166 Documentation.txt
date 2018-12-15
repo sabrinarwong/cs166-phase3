@@ -6,13 +6,12 @@ CS166 Phase 3 Documentation
 About:
   MechanicShop in Phase 3 is a client application implanted in Java using a postgreSQL database. Functions 1 - 5 uses sequence to create unique ids. Function 4, 8, and 9 uses index to search through its entries. 
 
-Functions 1-3 gets user input and inserts into its respective entries. Each function uses a sequence to increment the ids and checks the input the user enters to ensure information entered is valid before inserting.
-
-Functions 6-10 searches 
+Functions 1-3 gets user input and inserts into its respective entries. Each function uses a sequence to increment the ids and checks the input the user enters to ensure information entered is valid before inserting. Function 4 interacts with the user to select customer id and car vin for a service request. User input about the car and the complaint is entered and created into the Service_Request table. Function 5 also interacts with the user to select the service request id and mechanic id. User input about the service request and comment is entered and created into the Close_Request table. Functions 6-10 uses index <make, model> in table Car and index <customer_id, car_vin> in table Service_Request to search through the database to list out the requested queries.
 
 
 Assumptions/Additions and its details:
   •  With the requirement that "a car has exactly one owner", ownership of the car is inserted in table Owns when a car is added.
+  •  Inputs are checked for validity.
 
 
 Contributions:
@@ -24,7 +23,7 @@ Contributions:
   •  ListKCarsWithTheMostServices(esql);
 
   •  Created sequences in triggers.sql for incrementing ID's.
-  •  Created index make_model in create_index.sql;
+  •  Created indexes make_model in create_index.sql;
 
 
   Brianna: 

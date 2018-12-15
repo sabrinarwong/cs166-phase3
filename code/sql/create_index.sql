@@ -2,3 +2,4 @@
 
 
 CREATE INDEX make_model_index ON Car USING BTREE (make, model);
+CREATE INDEX cust_car_index ON Service_Request USING BTREE (customer_id, car_vin);
