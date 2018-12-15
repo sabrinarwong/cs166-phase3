@@ -310,26 +310,29 @@ public class MechanicShop{
 		return input;
 	}//end readChoice
 	
-	public static void AddCustomer(MechanicShop esql){//1 - sabrina=
+	public static void AddCustomer(MechanicShop esql){//1
+		String fname, lname, address, phone;
+		int custExists = 0;
+
 		try{ 
 			do {
-				if(custExists > 0 ){ System.out.println("Customer already exists. Enter new customer information: ")}
+				if(custExists > 0 ){ System.out.println("Customer already exists. Enter new customer information: ");}
 
 				System.out.print("\tEnter customer's first name: ");
-				String fname = in.readLine(); // take in fname
+				fname = in.readLine(); // take in fname
 
 				System.out.print("\tEnter customer's last name: ");
-				String lname = in.readLine();
+				lname = in.readLine();
 
 				System.out.print("\tEnter customer's address: ");
-				String address = in.readLine();
+				address = in.readLine();
 
 				System.out.print("\tEnter customer's phone number with the format (xxx)xxx-xxxx: "); 
-				String phone = in.readLine();
+				phone = in.readLine();
 
-				int custExists = esql.executeQuery("SELECT * FROM Customer WHERE fname = \'" + fname + "\', lname = \'" + lname + "\', address = \'" + address + "\', phone = \'" + phone + "\'");
+				custExists = esql.executeQuery("SELECT * FROM Customer WHERE fname = \'" + fname + "\', lname = \'" + lname + "\', address = \'" + address + "\', phone = \'" + phone + "\'");
 
-			} while (custExists > 0)
+			} while (custExists > 0);
 
 
 			int dummyVar = esql.executeQuery("SELECT setval(\'customer_id_seq\', (SELECT MAX(id) FROM Customer));");
@@ -346,20 +349,23 @@ public class MechanicShop{
 		}
 	}
 	
-	public static void AddMechanic(MechanicShop esql){//2 - bri 
+	public static void AddMechanic(MechanicShop esql){//2 
+		String fname, lname;
+		int exp = -1, mechExists = 0;
+
 		try {
 			
 			do {
-				if(mechExists > 0 ){ System.out.println("Mechanic already exists. Enter new mechanic information: ")}
+				if(mechExists > 0 ){ System.out.println("Mechanic already exists. Enter new mechanic information: ");}
 
 				System.out.print("\tEnter first name: ");
-				String fname = in.readLine();
+				fname = in.readLine();
 				
 				System.out.print("\tEnter last name: ");
-		        String lname = in.readLine();
+		        lname = in.readLine();
 				
 				System.out.print("\tEnter years experience: ");
-		        int exp = Integer.parseInt(in.readLine());
+		        exp = Integer.parseInt(in.readLine());
 
 		        // years of exp check
 				while(exp < 0){
@@ -367,9 +373,9 @@ public class MechanicShop{
 					exp = Integer.parseInt(in.readLine());
 				}
 
-				int mechExists = esql.executeQuery("SELECT * FROM Mechanic WHERE fname = \'" + fname + "\', lname = \'" + lname + "\', experience = \'" + exp + "\'");
+				mechExists = esql.executeQuery("SELECT * FROM Mechanic WHERE fname = \'" + fname + "\', lname = \'" + lname + "\', experience = \'" + exp + "\'");
 
-			} while (mechExists > 0)
+			} while (mechExists > 0);
 
         	int dummyVar = esql.executeQuery("SELECT setval(\'mechanic_id_seq\', (SELECT MAX(id) FROM Mechanic));");
 			int mech_id = esql.getCurrSeqVal("mechanic_id_seq") + 1;
@@ -535,8 +541,8 @@ public class MechanicShop{
 		int bill = -1;	
 		String mech_comments = "";
 		int wid = -1; // primary key of closed requests
-		int lastSRid = esql.getCurrSeqVal(rid_seq);
-		int lastMechId = esql.getCurrSeqVal(mechanic_id_seq);
+		int lastSRid = esql.getCurrSeqVal("rid_seq");
+		int lastMechId = esql.getCurrSeqVal("mechanic_id_seq");
 
 		try{
 			System.out.println("Enter the service request number (between 1 and "+ lastSRid + "): ");
