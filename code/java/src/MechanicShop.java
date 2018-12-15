@@ -337,7 +337,6 @@ public class MechanicShop{
 			System.err.println ("error: " + e.getMessage());
 		}
 	}
-	// still need to check user input
 	
 	public static void AddMechanic(MechanicShop esql){//2 - bri 
 		try {
@@ -351,6 +350,12 @@ public class MechanicShop{
 			System.out.print("\tEnter years experience: ");
 	        int exp = Integer.parseInt(in.readLine());
 
+	        // years of exp check
+			while(exp < 0){
+				System.out.print("Enter a NON-ZERO POSITIVE number: ");
+				exp = Integer.parseInt(in.readLine());
+			}
+
         	int dummyVar = esql.executeQuery("SELECT setval(\'mechanic_id_seq\', (SELECT MAX(id) FROM Mechanic));");
 			int mech_id = esql.getCurrSeqVal("mechanic_id_seq") + 1;
 
@@ -363,7 +368,6 @@ public class MechanicShop{
 			System.err.println (e.getMessage());
 		}
 	}//end AddMechanic 
-	// still need to check user input
 	
 	public static void AddCar(MechanicShop esql){//3 - sabrina
 		try{
@@ -396,7 +400,9 @@ public class MechanicShop{
 			String carModel = in.readLine();
 
 			System.out.print("\tEnter year of car: ");
-			String carYear = in.readLine(); // change to year
+			String carYear = in.readLine();
+
+
 
 			String insertCar = "INSERT INTO Car (vin, make, model, year) VALUES (\'" + vinNum + "\', \'" + carMake + "\', \'" + carModel + "\', \'" + carYear + "\');";
 
@@ -415,7 +421,6 @@ public class MechanicShop{
 			System.err.println (e.getMessage());
 		}		
 	}
-	// still need to check user input
 
 	public static void InsertServiceRequest(MechanicShop esql){//4 -  bri
 		int id = -1;
@@ -534,14 +539,11 @@ public class MechanicShop{
 						
 		
 			System.out.println("Enter your mechanic id (between 1 and 250): ");
-                        mechanic_id = Integer.parseInt(in.readLine());
-                        if (mechanic_id > 30000 || mechanic_id < 1) {
-                        	System.out.println("Number not valid, try again!");
-                        return;
-                        }
-                        else {
-                        	
-			}
+            mechanic_id = Integer.parseInt(in.readLine());
+            if (mechanic_id > 30000 || mechanic_id < 1) {
+       		 	System.out.println("Number not valid, try again!");
+      		  	return;
+            }
 	
 			// check if mechanic exists
 			query = "SELECT id, fname, lname FROM Mechanic M WHERE M.id = '";
@@ -553,12 +555,7 @@ public class MechanicShop{
 						
 			// check if proper date - FIX LATER
 			String date = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
-			//if ((openRequest.get(0).get(3)).before(date)) {
-			//System.out.println("date before today");
-			//}
-			//else {
-			//} 
-			
+
 			// generate incremnted closed request id NOT service request id
 			int dummyVar = esql.executeQuery("SELECT setval(\'wid_seq\', (SELECT MAX(wid) FROM Closed_Request));");
 			wid = esql.getCurrSeqVal("wid_seq") + 1;
@@ -654,9 +651,7 @@ public class MechanicShop{
 	public static void ListCustomersInDescendingOrderOfTheirTotalBill(MechanicShop esql){//10 - bri
 		try{		
 			String query = "SELECT C.fname , C.lname, Total FROM Customer AS C, (SELECT sr.customer_id, SUM(CR.bill) AS Total FROM Closed_Request AS CR, Service_Request AS SR WHERE CR.rid = SR.rid GROUP BY SR.customer_id) AS A WHERE C.id=A.customer_id ORDER BY A.Total DESC";
-			//List<List<String>> customers = esql.executeQueryAndReturnResult(query);
-			//for (int i = 0; i < customers.size(); i++) {
-				//System.out.println((i + 1) + ", " + customers.get(i).get(0
+
 			int rowCount = esql.executeQueryAndPrintResult(query);			
 			System.out.println("total row(s): " + rowCount);
 			System.out.printf("%n");

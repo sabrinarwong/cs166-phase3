@@ -3,32 +3,33 @@ Brianna Nguyen
 
 CS166 Phase 3 Documentation
 
-Assumptions and its details:
+About:
+  MechanicShop in Phase 3 is a client application implanted in Java using a postgreSQL database. Functions 1 - 5 uses sequence to create unique ids. Function 4, 8, and 9 uses index to search through its entries. 
+
+Functions 1-3 gets user input and inserts into its respective entries. Each function uses a sequence to increment the ids and checks the input the user enters to ensure information entered is valid before inserting.
+
+Functions 6-10 searches 
+
+
+Assumptions/Additions and its details:
   •  With the requirement that "a car has exactly one owner", ownership of the car is inserted in table Owns when a car is added.
-  •  
-  •  
-  •  
-  •  
 
 
 Contributions:
-   Sabrina:
+  Sabrina:
   •  AddCustomer(esql);
   •  AddMechanic(esql);
   •  AddCar(esql);
   •  ListCustomersWithMoreThan20Cars(esql);
-     •  Created index make_model in create_index.sqlfor option 9;
   •  ListKCarsWithTheMostServices(esql);
 
   •  Created sequences in triggers.sql for incrementing ID's.
+  •  Created index make_model in create_index.sql;
 
 
-   Brianna: 
+  Brianna: 
   •  InsertServiceRequest(esql);
   •  CloseServiceRequest(esql);
   •  ListCustomersWithBillLessThan100(esql);
   •  ListCarsBefore1995With50000Milles(esql);
   •  ListCustomersInDescendingOrderOfTheirTotalBill(esql);
-  •  
-  •  
-  •  
