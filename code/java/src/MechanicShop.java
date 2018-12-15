@@ -544,7 +544,7 @@ public class MechanicShop{
 
 		int dummyVar1 = esql.executeQuery("SELECT setval(\'rid_seq\', (SELECT MAX(rid) FROM Service_Request));");
 		int lastSRid = esql.getCurrSeqVal("rid_seq");
-		int dummyVar2 = esql.executeQuery("SELECT setval(\'rid_seq\', (SELECT MAX(rid) FROM Mechanic));");
+		int dummyVar2 = esql.executeQuery("SELECT setval(\'rid_seq\', (SELECT MAX(id) FROM Mechanic));");
 		int lastMechId = esql.getCurrSeqVal("mechanic_id_seq");
 
 		try{
