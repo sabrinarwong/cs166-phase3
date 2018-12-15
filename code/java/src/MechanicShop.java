@@ -535,13 +535,16 @@ public class MechanicShop{
 		}		
 	}//end InsertServiceRequest
 	
-	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5 - sabrina
+	public static void CloseServiceRequest(MechanicShop esql) throws Exception{//5
 		int request_id = -1;
 		int mechanic_id = -1;
 		int bill = -1;	
 		String mech_comments = "";
 		int wid = -1; // primary key of closed requests
+
+		int dummyVar1 = esql.executeQuery("SELECT setval(\'rid_seq\', (SELECT MAX(rid) FROM Service_Request));");
 		int lastSRid = esql.getCurrSeqVal("rid_seq");
+		int dummyVar2 = esql.executeQuery("SELECT setval(\'rid_seq\', (SELECT MAX(rid) FROM Mechanic));");
 		int lastMechId = esql.getCurrSeqVal("mechanic_id_seq");
 
 		try{
@@ -563,6 +566,7 @@ public class MechanicShop{
 		
 			System.out.println("Enter your mechanic id (between 1 and " + lastMechId + "): ");
             mechanic_id = Integer.parseInt(in.readLine());
+
             if (mechanic_id > lastMechId || mechanic_id < 1) {
        		 	System.out.println("Number not valid, try again!");
       		  	return;
@@ -605,7 +609,7 @@ public class MechanicShop{
 		}		
 	}
 	
-	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6 - bri
+	public static void ListCustomersWithBillLessThan100(MechanicShop esql){//6
 		try{
 			//String query = "SELECT date,comment,bill FROM Closed_Request WHERE bill < 100";		
 			String query = "SELECT customer_id, CR.rid, bill FROM Closed_Request AS CR, Service_Request AS SR WHERE SR.rid = CR.rid and CR.bill < 100";
@@ -619,7 +623,7 @@ public class MechanicShop{
 		}
 	}//end ListCustomersWithBill
 	
-	public static void ListCustomersWithMoreThan20Cars(MechanicShop esql){//7 - sabrina
+	public static void ListCustomersWithMoreThan20Cars(MechanicShop esql){//7
 		try{
 			String query = "SELECT DISTINCT Customer.fname, Customer.lname FROM Customer WHERE Customer.id IN (SELECT Owns.customer_id FROM Owns GROUP by Owns.customer_id HAVING COUNT(car_vin) > 20);";
 
@@ -632,7 +636,7 @@ public class MechanicShop{
 		}
 	}
 	
-	public static void ListCarsBefore1995With50000Milles(MechanicShop esql){//8 - bri
+	public static void ListCarsBefore1995With50000Milles(MechanicShop esql){//8
 		try{
 			String query = "SELECT DISTINCT make, model, year, odometer FROM Car AS C, Service_Request AS S WHERE year < 1995 and S.car_vin = C.vin and S.odometer < 50000"; 
 			
@@ -646,7 +650,7 @@ public class MechanicShop{
 	} //endListCarsBefore1995
 	
 	
-	public static void ListKCarsWithTheMostServices(MechanicShop esql){//9 - sabrina
+	public static void ListKCarsWithTheMostServices(MechanicShop esql){//9
 		//
 		try{
 			String query = "SELECT * FROM ( SELECT DISTINCT c.make, c.model, COUNT(s.car_vin) AS count_vin FROM service_request s JOIN car c on s.car_vin = c.vin GROUP BY c.make, c.model) AS count_sr_vin ORDER BY count_vin desc;"; // needs user input to select
@@ -674,7 +678,7 @@ public class MechanicShop{
 		}
 	}
 	
-	public static void ListCustomersInDescendingOrderOfTheirTotalBill(MechanicShop esql){//10 - bri
+	public static void ListCustomersInDescendingOrderOfTheirTotalBill(MechanicShop esql){//10
 		try{		
 			String query = "SELECT C.fname , C.lname, Total FROM Customer AS C, (SELECT sr.customer_id, SUM(CR.bill) AS Total FROM Closed_Request AS CR, Service_Request AS SR WHERE CR.rid = SR.rid GROUP BY SR.customer_id) AS A WHERE C.id=A.customer_id ORDER BY A.Total DESC";
 
